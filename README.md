@@ -6,21 +6,89 @@ This is a scale model of torx make, with the basic models and a simple api, it u
 
 It is designed as a way to learn the mechanics of torx make.
 
-## Setup
+## Development Environment Setup
 
-To build the docker image: `make build`
+### Installing Devbox
 
-To generate migrations: `make migrations`
+This project uses [devbox](https://www.jetify.com/devbox) to manage the development environment. Devbox provides an isolated, reproducible development environment with all necessary tools.
 
-To apply migrations: `make migrate`
+#### Windows (WSL recommended)
 
-To create a super user: `make createsuperuser`
+1. **Install WSL2** (if not already installed):
+   ```powershell
+   wsl --install
+   ```
+   Restart your computer and set up a Linux distribution (Ubuntu recommended).
 
-To run the web server: `make start`
+2. **Inside WSL2**, install devbox:
+   ```bash
+   curl -fsSL https://get.jetify.com/devbox | bash
+   ```
 
-To read the logs: `make logs`
+#### macOS
 
-Please note: There's a `env.example` file, this project uses a `.env` file, please make sure you use the example file to initially set up environmental variables.
+Install using Homebrew:
+```bash
+brew install jetify-io/devbox/devbox
+```
+
+Or using the install script:
+```bash
+curl -fsSL https://get.jetify.com/devbox | bash
+```
+
+#### Linux
+
+```bash
+curl -fsSL https://get.jetify.com/devbox | bash
+```
+
+### Setting up the Project
+
+1. **Clone and enter the project directory**:
+   ```bash
+   git clone <repository-url>
+   cd integrations-test
+   ```
+
+2. **Start the devbox shell**:
+   ```bash
+   devbox shell
+   ```
+   This will automatically install `just` and Docker tools. Python and linting tools are available in the Docker container.
+
+3. **Run the setup script** (optional):
+   ```bash
+   devbox run setup
+   ```
+
+4. **Set up environment variables**:
+   Copy `env.example` to `.env` and configure as needed:
+   ```bash
+   cp env.example .env
+   ```
+
+## Project Commands
+
+This project uses [just](https://github.com/casey/just) as a command runner (replacing the previous Makefile). All commands should be run within the devbox shell.
+
+### Basic Setup Commands
+
+To build the docker image: `just build`
+
+To generate migrations: `just migrations`
+
+To apply migrations: `just migrate`
+
+To create a super user: `just createsuperuser`
+
+To run the web server: `just start`
+
+To read the logs: `just logs`
+
+### Available Commands
+
+Run `just help` or `just` to see all available commands with detailed descriptions.
 
 ## Usage
 
@@ -52,4 +120,4 @@ Please note: You will not need to write your own models!
 
 ### Running your biz_rule
 
-Running your code is as simple as `make bizrule`
+Running your code is as simple as `just bizrule`

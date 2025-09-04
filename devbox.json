@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetpack-io/devbox/0.13.6/.schema/devbox.schema.json",
+  "packages": [
+    "just@latest",
+    "docker@latest", 
+    "docker-compose@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to the itrax development environment!'",
+      "echo 'Available commands:'",
+      "echo '  just help - Show available commands'",
+      "echo '  just build - Build the docker image'",
+      "echo '  just start - Start the application'",
+      "echo ''",
+      "echo 'Python and linting tools are available in the Docker container.'"
+    ],
+    "scripts": {
+      "setup": [
+        "echo 'Setting up development environment...'",
+        "echo 'Checking Docker...'",
+        "docker --version || echo 'Docker not available - please ensure Docker is installed and running'",
+        "echo 'Ready to develop!'"
+      ]
+    }
+  }
+}
