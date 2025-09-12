@@ -20,11 +20,11 @@ We have selected some apis and you may choose whichever one you like and write t
 
 Your task can be broken down into three parts:
 
-* Study the api docs of the service you have chosen.
+* Study the api docs of the _one_ service you have chosen.
 * Write a biz_rule that consumes data from one of the api end points.
 * Ingests that into our test system using the provided models.
 
-Please note: You will not need to write your own models, or edit existing models!
+To be clear; you will not need to write your own models, or edit existing models, nor are you expected to consume all the data the end point returns, some of these end points contain hundreds of megabytes of data, you can ingest as much data as you want to, but you do not have to consume everything.
 
 ### The Services
 
