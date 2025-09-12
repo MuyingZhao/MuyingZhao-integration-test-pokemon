@@ -1,5 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
-import requests
+from django.core.management.base import BaseCommand
 
 from core.biz_rule import main
 
