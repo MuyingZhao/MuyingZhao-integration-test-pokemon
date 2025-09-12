@@ -1,11 +1,5 @@
 # README
 
-## Purpose
-
-This is a scale model of iTraX, with the basic models and a simple api, it uses django rest framework to create a viewable api in the browser.
-
-It is designed as a way to learn the mechanics of iTraX, if you are successful in your application you will be working on a system similar to this (but on a much larger scale).
-
 ## Setup
 
 For development environment setup, project commands, and usage instructions, please see [HELP.md](HELP.md).
@@ -14,7 +8,9 @@ For development environment setup, project commands, and usage instructions, ple
 
 ### Description Of Problem
 
-At Elixir we often have to work with third party apis and ingest data into our system, we write bespoke programs that we call `biz_rules` to perform this integration. This test is a scale model of the sort of work we do quite frequently and is quite reflective of what a typical day might look like.
+At Elixir we often have to work with third party apis and ingest data into our system, we write bespoke programs that we call `biz_rules` to perform this integration. This test is a scale model of the sort of work we do quite frequently and is quite reflective of what a typical day might look like, the system uses django rest framework to create a viewable api in the browser.
+
+It is designed as a way to learn the mechanics of iTraX, if you are successful in your application you will be working on a system similar to this (but on a much larger scale).
 
 We have selected some apis and you may choose whichever one you like and write the code in the matching `core/biz_rule.py` file (please see the `Services` section below for details).
 
