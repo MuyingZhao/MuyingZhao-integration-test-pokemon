@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This is a scale model of torx make, with the basic models and a simple api, it uses django rest framework to create a viewable api in the browser.
+This is a scale model of iTraX, with the basic models and a simple api, it uses django rest framework to create a viewable api in the browser.
 
-It is designed as a way to learn the mechanics of torx make.
+It is designed as a way to learn the mechanics of iTraX, if you are successful in your application you will be working on a system similar to this (but on a much larger scale).
 
 ## Setup
 
@@ -24,7 +24,7 @@ Your task can be broken down into three parts:
 * Write a biz_rule that consumes data from one of the api end points.
 * Ingests that into our test system using the provided models.
 
-Please note: You will not need to write your own models!
+Please note: You will not need to write your own models, or edit existing models!
 
 ### The Services
 
@@ -36,6 +36,4 @@ Please note: You will not need to write your own models!
 
 ### Running your biz_rule
 
-Running your code is as simple as `just bizrule`
-
-For detailed setup and usage instructions, see [HELP.md](HELP.md).
+Running your integration (ingesting the data into the system) is as simple as `just bizrule`
