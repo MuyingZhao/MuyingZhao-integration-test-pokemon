@@ -1,6 +1,7 @@
 from threading import Lock
 from polymorphic.models import PolymorphicModel
 from typing import Optional
+import contextlib
 import re
 
 from django.db import models, transaction
@@ -118,11 +119,8 @@ class Object(models.Model):
             of a query set, so just catch and pass the error, it's non fatal but does have
             to be handled.
             """
-            try:
+            with contextlib.suppress(AttributeError):
                 max_counter = similar_objects.first().object_counter
-
-            except AttributeError:
-                pass
 
             self.object_counter = max_counter + 1
             super(Object, self).save(force_insert, force_update, **kwargs)

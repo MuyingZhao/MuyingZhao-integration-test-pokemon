@@ -163,7 +163,7 @@ poetry cmd: dev-tools-check
 
 # Create Django superuser
 createsuperuser:
-    @docker compose run {{service}} poetry run python manage.py createsuperuser --noinput
+    @docker compose run --rm {{service}} poetry run python manage.py createsuperuser --noinput
 
 # Show container logs
 logs: dev-tools-check
@@ -171,4 +171,4 @@ logs: dev-tools-check
 
 # Run business rule
 bizrule:
-    @docker compose run {{service}} poetry run python manage.py bizrule
+    @docker compose run --rm {{service}} poetry run python manage.py bizrule
