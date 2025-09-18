@@ -40,7 +40,7 @@ def _empty_all():
     Object.objects.all().delete()
     Service.objects.all().delete()
 
-
+# manual error handling function, delete the created objects if an error happens
 def _disater_recovery(created_service_name: str):
     # deleted service
     service = Service.objects.get(name=created_service_name)
@@ -61,13 +61,13 @@ def _disater_recovery(created_service_name: str):
     Field.objects.filter(service=service).delete()
     service.delete()
 
-
+# convert date from "YYYY/MM/DD" to "YYYY-MM-DD"
 def _date_converter(date_str):
     parsed = datetime.strptime(date_str, "%Y/%m/%d")
     formatted = parsed.strftime("%Y-%m-%d")
     return formatted
 
-
+# map the form type to the corresponding form class
 FORM_TYPE_MAP = {
     Field.CHAR: CharacterForm,
     Field.TEXT: TextForm,
@@ -78,13 +78,13 @@ FORM_TYPE_MAP = {
     Field.URL: URLForm,
 }
 
-
+# add a field value to the corresponding form table
 def _add_field_value(obj: Object, field: Field, value):
     form_cls: Form = FORM_TYPE_MAP[field.form_type]
     # Simply using this line give creates a new field every time in the service
     form_cls.objects.create(object=obj, field=field, value=value)
 
-
+# add a field to the service, and add the corresponding value to the object
 def _add_field(
     obj: Object,
     service: Service,
@@ -104,6 +104,8 @@ def _add_field(
 
 
 @transaction.atomic # if any error happens, rollback everything in this function (automatic error handling)
+
+# get data from the pokemon API and store it in the database
 def _pokemon_data():
     # This url gets a list of all pokemon card sets
     pokemon_api_key = api_key.get("pokemon_key", "")
@@ -173,7 +175,7 @@ def _pokemon_data():
         )
         # raise Exception("Testisng error handling")
 
-
+# get data from the marvel API and store it in the database
 def _marvel_data(): # manual error handling
     # variables for the API call
     # URL, API KEY
@@ -255,5 +257,5 @@ def main():
     # with the testing error raised, we can prove the atomic transaction works both mannually (_disaster_recovery) and automatically (transaction.atomic)
     _empty_all()
     _pokemon_data()
-    # _marvel_data()
+    #_marvel_data()
 

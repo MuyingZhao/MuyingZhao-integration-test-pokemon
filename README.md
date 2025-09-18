@@ -33,3 +33,33 @@ To be clear; you will not need to write your own models, or edit existing models
 ### Running your biz_rule
 
 Running your integration (ingesting the data into the system) is as simple as `just bizrule`
+
+### Solution
+
+Problem-solving idea: 
+1. understand table relationships (Service, Form, Object, Field) => using Foreign keys form a human readable table
+Form (value) FK -> Object 
+Object (Row) -> Service 
+Field (Column name)  -> Service 
+Service (table)
+2. learn API behaviour (explore API endpoints using Insomnia, test different HTTP methods(GET, POST, etc.), understand parameters and headers(Authentication and API keys), determine endpoint/parameter to execute data queries)
+3. learn API data structure (after I got successful response, understand json data structure, find the data of interests)
+4. consume data: make the API request in Python
+5. convert the raw data into format that the field expects of
+5. ingest data: use the model provided to save the data to database
+6. modulize the code to reduce the repetition in the code
+7. customized error handing(manually) to guarantee the atomic transactions
+8. found the Python decor to do the same thing as above
+
+Pokemon visual data table:
+SetName - TEXT
+Series - TEXT
+TotalCards - INTEGER
+ReleaseDate - Date
+symbol - URL
+
+Marvel visual data table:
+title - TEXT
+pageCount - INTEGER
+resourceURI - URL
+price - FLOAT
