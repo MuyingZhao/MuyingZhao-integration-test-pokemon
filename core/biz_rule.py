@@ -116,10 +116,9 @@ def _pokemon_data():
         "Accept": "application/json",
         "X-Api-Key": pokemon_api_key,
     }
+    # make the request to get the data
     response = requests.get(f"{base_pokemon_url}", headers=headers)
     print(f"Finished API Call, {str(response.status_code)}")
-
-    # the above is to get the data from the API
 
     # create a service, in the models.py given the hierarchy of the classes. The server is like a datatable
     service = Service.objects.create(
@@ -183,16 +182,21 @@ def _marvel_data(): # manual error handling
     public_key = api_key.get("marvel_public_key", "")
     private_key = api_key.get("marvel_private_key", "")
     ts = str(datetime.now().timestamp())
+
     # hash — a md5 digest of the ts parameter, your private key and your public key (e.g, md5(ts+privateKey+publicKey)
     hash_input = ts + private_key + public_key
     hash_result = hashlib.md5(hash_input.encode()).hexdigest()
     params = {"apikey": public_key, "ts": ts, "hash": hash_result}
 
-    headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    headers = {
+        "Content-Type": "application/json", 
+        "Accept": "application/json"
+        }
 
     # make the request to get the data
     response = requests.get(f"{comics_marvel_url}", headers=headers, params=params)
     print(f"Finished API Call, {str(response.status_code)}")
+
     # create a service, which is the virutal table
     service_name = "MarvelComicCollection"
     try:
@@ -251,11 +255,81 @@ def _marvel_data(): # manual error handling
         # only delete the created objects in this round if an error occurs
         _disater_recovery(created_service_name=service_name)
 
+# get data from the scryfall API and store it in the database
+def _scryfall_data():
+    sets_scryfall_url = "https://api.scryfall.com/sets"
+    headers = {
+        "Content-Type": "*/*",
+        "Accept": "application/json",
+        "User-Agent": "insomnia/11.6.0",
+    }
+
+    # make the request to get the data
+    response = requests.get(f"{sets_scryfall_url}", headers=headers)
+    print(f"Finished API Call, {str(response.status_code)}")
+
+    # create a service, in the models.py given the hierarchy of the classes. The server is like a datatable
+    service_name = "scryfallSets"
+    try:
+        service = Service.objects.create(
+            name=service_name,
+            description="List of all Scryfall Card Sets",
+        )
+        created_objects = []
+        for scryfall_set in response.json()["data"]:
+             # create an object for each scryfall set, like a row in the datatable
+            obj = Object(service=service)
+            obj.save()
+            created_objects.append(obj.human_id)
+            # add fields to the object, like columns in the datatable
+            _add_field(
+                obj=obj,
+                service=service,
+                name="SetName",
+                description="Name of the scryfall set",
+                form_type=Field.TEXT,
+                value=scryfall_set.get("name", ""),
+            )
+
+            _add_field(
+                obj=obj,
+                service=service,
+                name="SetType",
+                description="Type of the scryfall set",
+                form_type=Field.TEXT,
+                value=scryfall_set.get("set_type", ""),
+            )
+
+            _add_field(
+                obj=obj,
+                service=service,
+                name="CardCount",
+                description="Total number of cards in the set",
+                form_type=Field.INTEGER,
+                value=scryfall_set.get("card_count", 0),
+            )
+
+            _add_field(
+                obj=obj,
+                service=service,
+                name="ReleaseDate",
+                description="Release date of the scryfall set",
+                form_type=Field.DATE,
+                value=scryfall_set.get("released_at", ""),
+            )
+
+    except Exception as e:
+        print(traceback.format_exc())
+        # only delete the created objects in this round if an error occurs
+        _disater_recovery(created_service_name=service_name)
+            
+
 
 def main():
     # empty all delete all the existing data
     # with the testing error raised, we can prove the atomic transaction works both mannually (_disaster_recovery) and automatically (transaction.atomic)
     _empty_all()
-    _pokemon_data()
+    #_pokemon_data()
     #_marvel_data()
+    _scryfall_data()
 

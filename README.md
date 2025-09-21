@@ -38,7 +38,7 @@ Running your integration (ingesting the data into the system) is as simple as `j
 
 Problem-solving idea: 
 1. understand table relationships (Service, Form, Object, Field) => using Foreign keys form a human readable table
-- Form (value) FK -> Object 
+- Form (value) FK -> Object, Field
 - Object (Row) -> Service 
 - Field (Column name)  -> Service 
 - Service (table)
